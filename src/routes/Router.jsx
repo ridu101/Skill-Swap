@@ -17,14 +17,10 @@ import PrivateRoute from "../hooks/PrivateRoute";
 function Router() {
     return (
         <Routes>
-            {/* Main website layout */}
             <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
-
-                {/* Skill details */}
                 <Route path="/skill/:skillId" element={<SkillDetails />} />
 
-                {/* Profile: UI-only for now */}
                 <Route element={<PrivateRoute />}>
                     <Route path="/profile" element={<Profile />} />
                 </Route>
@@ -32,7 +28,6 @@ function Router() {
                 <Route path="*" element={<NotFound />} />
             </Route>
 
-            {/* Authentication layout */}
             <Route element={<AuthLayout />}>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
