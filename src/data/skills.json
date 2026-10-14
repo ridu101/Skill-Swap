@@ -1,0 +1,98 @@
+[
+    {
+        "skillId": "web-development",
+        "skillName": "Modern Web Development",
+        "providerName": "Arif Rahman",
+        "providerEmail": "arif@example.com",
+        "price": 800,
+        "rating": 4.9,
+        "slotsAvailable": 5,
+        "description": "Learn to build responsive websites using HTML, CSS, JavaScript and React. Practice through real-world projects and guided sessions.",
+        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=85",
+        "category": "Technology"
+    },
+    {
+        "skillId": "ui-ux-design",
+        "skillName": "UI/UX Design",
+        "providerName": "Nusrat Jahan",
+        "providerEmail": "nusrat@example.com",
+        "price": 650,
+        "rating": 4.8,
+        "slotsAvailable": 4,
+        "description": "Explore user research, wireframing, prototyping and modern interface design. Learn to create clear and user-friendly digital experiences.",
+        "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=85",
+        "category": "Design"
+    },
+    {
+        "skillId": "photography",
+        "skillName": "Creative Photography",
+        "providerName": "Tanvir Hasan",
+        "providerEmail": "tanvir@example.com",
+        "price": 500,
+        "rating": 4.7,
+        "slotsAvailable": 6,
+        "description": "Understand composition, lighting, framing and storytelling. Learn practical photography techniques for everyday and creative projects.",
+        "image": "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=1000&q=85",
+        "category": "Creative"
+    },
+    {
+        "skillId": "digital-marketing",
+        "skillName": "Digital Marketing",
+        "providerName": "Sadia Islam",
+        "providerEmail": "sadia@example.com",
+        "price": 700,
+        "rating": 4.9,
+        "slotsAvailable": 3,
+        "description": "Learn content strategy, social media marketing, audience research and campaign planning with practical examples.",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85",
+        "category": "Marketing"
+    },
+    {
+        "skillId": "english-speaking",
+        "skillName": "English Speaking",
+        "providerName": "Maliha Ahmed",
+        "providerEmail": "maliha@example.com",
+        "price": 400,
+        "rating": 4.8,
+        "slotsAvailable": 8,
+        "description": "Improve conversational English, vocabulary, pronunciation and confidence through friendly guided practice sessions.",
+        "image": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1000&q=85",
+        "category": "Language"
+    },
+    {
+        "skillId": "video-editing",
+        "skillName": "Video Editing",
+        "providerName": "Rafi Chowdhury",
+        "providerEmail": "rafi@example.com",
+        "price": 750,
+        "rating": 4.7,
+        "slotsAvailable": 4,
+        "description": "Learn editing fundamentals, transitions, audio syncing, storytelling and polished social media video production.",
+        "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1000&q=85",
+        "category": "Creative"
+    },
+    {
+        "skillId": "data-analysis",
+        "skillName": "Data Analysis",
+        "providerName": "Imran Hossain",
+        "providerEmail": "imran@example.com",
+        "price": 900,
+        "rating": 5.0,
+        "slotsAvailable": 3,
+        "description": "Learn how to organize, analyze and communicate data using spreadsheets, visualization and practical analytical thinking.",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85",
+        "category": "Technology"
+    },
+    {
+        "skillId": "graphic-design",
+        "skillName": "Graphic Design",
+        "providerName": "Farhan Kabir",
+        "providerEmail": "farhan@example.com",
+        "price": 600,
+        "rating": 4.8,
+        "slotsAvailable": 5,
+        "description": "Discover visual hierarchy, typography, color theory and branding fundamentals through hands-on design exercises.",
+        "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=85",
+        "category": "Design"
+    }
+]
