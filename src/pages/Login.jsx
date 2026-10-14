@@ -5,6 +5,7 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import { FaFacebookF } from "react-icons/fa";
 import { getAuthErrorMessage } from "../utils/authErrors";
 
 function Login() {
@@ -13,7 +14,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [submitting, setSubmitting] = useState(false);
 
-    const { login, googleLogin } = useAuth();
+    const { login, googleLogin, facebookLogin } = useAuth();
     const navigate = useNavigate();
 
     async function handleSubmit(event) {
@@ -50,6 +51,32 @@ function Login() {
             setSubmitting(false);
         }
     }
+   
+async function handleFacebookLogin() {
+    if (submitting) return;
+
+    setSubmitting(true);
+    const toastId = toast.loading("Connecting to Facebook...");
+
+    try {
+        await facebookLogin();
+
+        toast.success("Facebook login successful!", {
+            id: toastId,
+        });
+
+        navigate("/profile", { replace: true });
+    } catch (error) {
+        console.error("Facebook login error:", error);
+
+        toast.error(getAuthErrorMessage(error), {
+            id: toastId,
+        });
+    } finally {
+        setSubmitting(false);
+    }
+}
+
 
     const labelClass = "mb-1.5 block text-sm font-medium text-slate-700";
     const inputClass =
@@ -104,7 +131,7 @@ function Login() {
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
                             placeholder="you@example.com"
-                            className={`${inputClass} !pl-11 !pr-3`}
+                            className={`${inputClass} pl-11! pr-3!`}
                         />
                     </div>
                 </div>
@@ -132,7 +159,7 @@ function Login() {
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
                             placeholder="Enter your password"
-                            className={`${inputClass} !pl-11 !pr-11`}
+                            className={`${inputClass} pl-11! pr-11!`}
                         />
                         <button
                             type="button"
@@ -148,7 +175,7 @@ function Login() {
                 <button
                     type="submit"
                     disabled={submitting}
-                    className="!mt-5 flex min-h-11 w-full items-center justify-center rounded-lg border border-blue-600 bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="mt-5! flex min-h-11 w-full items-center justify-center rounded-lg border border-blue-600 bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     {submitting ? "Please wait..." : "Log in"}
                 </button>
@@ -169,6 +196,20 @@ function Login() {
                 <FcGoogle size={20} />
                 <span>Continue with Google</span>
             </button>
+            
+            <button
+                type="button"
+                onClick={handleFacebookLogin}
+                disabled={submitting}
+                style={{
+                    ...socialButtonStyle,
+                    marginTop: "12px",
+                }}
+            >
+                <FaFacebookF size={19} color="#1877F2" />
+                <span>Continue with Facebook</span>
+            </button>
+            
 
             <p className="mt-5 text-center text-sm leading-5 text-slate-600">
                 Don't have an account?{" "}

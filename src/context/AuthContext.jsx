@@ -5,6 +5,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
+    FacebookAuthProvider,
     signInWithPopup,
     signOut,
     updateProfile,
@@ -16,6 +17,8 @@ const AuthContext = createContext(null);
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
+
+const facebookProvider = new FacebookAuthProvider();
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -49,7 +52,7 @@ export function AuthProvider({ children }) {
             ...(photoURL.trim() ? { photoURL: photoURL.trim() } : {}),
         });
 
-        setUser({ ...result.user });
+        setUser(auth.currentUser);
         return result.user;
     }
 
@@ -59,11 +62,17 @@ export function AuthProvider({ children }) {
             email,
             password
         );
+
         return result.user;
     }
 
     async function googleLogin() {
         const result = await signInWithPopup(auth, googleProvider);
+        return result.user;
+    }
+
+    async function facebookLogin() {
+        const result = await signInWithPopup(auth, facebookProvider);
         return result.user;
     }
 
@@ -81,6 +90,7 @@ export function AuthProvider({ children }) {
         signup,
         login,
         googleLogin,
+        facebookLogin,
         logout,
         resetPassword,
     };
