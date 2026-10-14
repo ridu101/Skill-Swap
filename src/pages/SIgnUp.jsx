@@ -96,7 +96,7 @@ function Signup() {
                         minLength={6}
                         autoComplete="new-password"
                         placeholder={placeholder}
-                        className={`${inputClass} !pl-11 !pr-11`}
+                        className={`${inputClass} pl-11! pr-11!`}
                     />
                     <button
                         type="button"
@@ -139,7 +139,7 @@ function Signup() {
                             required
                             autoComplete="name"
                             placeholder="Your full name"
-                            className={`${inputClass} !pl-11 !pr-3`}
+                            className={`${inputClass} pl-11! pr-3!`}
                         />
                     </div>
                 </div>
@@ -159,7 +159,7 @@ function Signup() {
                             required
                             autoComplete="email"
                             placeholder="you@example.com"
-                            className={`${inputClass} !pl-11 !pr-3`}
+                            className={`${inputClass} pl-11! pr-3!`}
                         />
                     </div>
                 </div>
@@ -176,7 +176,7 @@ function Signup() {
                         value={formData.photoURL}
                         onChange={handleChange}
                         placeholder="https://example.com/photo.jpg"
-                        className={`${inputClass} !px-3`}
+                        className={`${inputClass} px-3!`}
                     />
                 </div>
 
@@ -203,7 +203,7 @@ function Signup() {
                 <button
                     type="submit"
                     disabled={submitting}
-                    className="!mt-4 flex min-h-11 w-full items-center justify-center rounded-lg border border-blue-600 bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="mt-4! flex min-h-11 w-full items-center justify-center rounded-lg border border-blue-600 bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     {submitting ? "Creating account..." : "Create account"}
                 </button>

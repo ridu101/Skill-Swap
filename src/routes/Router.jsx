@@ -9,7 +9,7 @@ import Home from "../pages/Home";
 import SkillDetails from "../pages/SkillDetails";
 import Profile from "../pages/Profile";
 import Login from "../pages/Login";
-import Signup from "../pages/Signup";
+import Signup from "../pages/Signup.jsx";
 import ForgotPassword from "../pages/ForgotPassword";
 import NotFound from "../pages/NotFound";
 
