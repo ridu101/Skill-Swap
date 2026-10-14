@@ -1,11 +1,12 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import toast from "react-hot-toast";
-import { useAuth } from "../context/AuthContext";
 import { FaFacebookF } from "react-icons/fa";
+import toast from "react-hot-toast";
+
+import { useAuth } from "../context/AuthContext";
 import { getAuthErrorMessage } from "../utils/authErrors";
 
 function Login() {
@@ -16,6 +17,13 @@ function Login() {
 
     const { login, googleLogin, facebookLogin } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from;
+
+    const redirectTo = from?.pathname
+        ? `${from.pathname}${from.search || ""}${from.hash || ""}`
+        : "/profile";
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -26,10 +34,16 @@ function Login() {
 
         try {
             await login(email.trim(), password);
-            toast.success("Login successful! Welcome back.", { id: toastId });
-            navigate("/profile", { replace: true });
+
+            toast.success("Login successful! Welcome back.", {
+                id: toastId,
+            });
+
+            navigate(redirectTo, { replace: true });
         } catch (error) {
-            toast.error(getAuthErrorMessage(error), { id: toastId });
+            toast.error(getAuthErrorMessage(error), {
+                id: toastId,
+            });
         } finally {
             setSubmitting(false);
         }
@@ -43,44 +57,52 @@ function Login() {
 
         try {
             await googleLogin();
-            toast.success("Google login successful!", { id: toastId });
-            navigate("/profile", { replace: true });
+
+            toast.success("Google login successful!", {
+                id: toastId,
+            });
+
+            navigate(redirectTo, { replace: true });
         } catch (error) {
-            toast.error(getAuthErrorMessage(error), { id: toastId });
+            toast.error(getAuthErrorMessage(error), {
+                id: toastId,
+            });
         } finally {
             setSubmitting(false);
         }
     }
-   
-async function handleFacebookLogin() {
-    if (submitting) return;
 
-    setSubmitting(true);
-    const toastId = toast.loading("Connecting to Facebook...");
+    async function handleFacebookLogin() {
+        if (submitting) return;
 
-    try {
-        await facebookLogin();
+        setSubmitting(true);
+        const toastId = toast.loading("Connecting to Facebook...");
 
-        toast.success("Facebook login successful!", {
-            id: toastId,
-        });
+        try {
+            await facebookLogin();
 
-        navigate("/profile", { replace: true });
-    } catch (error) {
-        console.error("Facebook login error:", error);
+            toast.success("Facebook login successful!", {
+                id: toastId,
+            });
 
-        toast.error(getAuthErrorMessage(error), {
-            id: toastId,
-        });
-    } finally {
-        setSubmitting(false);
+            navigate(redirectTo, { replace: true });
+        } catch (error) {
+            console.error("Facebook login error:", error);
+
+            toast.error(getAuthErrorMessage(error), {
+                id: toastId,
+            });
+        } finally {
+            setSubmitting(false);
+        }
     }
-}
 
+    const labelClass =
+        "mb-1.5 block text-sm font-medium text-slate-700";
 
-    const labelClass = "mb-1.5 block text-sm font-medium text-slate-700";
     const inputClass =
         "block h-11 w-full rounded-lg border border-slate-300 bg-white py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+
     const iconClass =
         "pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-slate-500";
 
@@ -108,9 +130,11 @@ async function handleFacebookLogin() {
                 <p className="mb-1.5 text-xs font-bold tracking-wider text-blue-600">
                     WELCOME BACK
                 </p>
+
                 <h1 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl">
                     Log in
                 </h1>
+
                 <p className="mt-2 text-sm leading-5 text-slate-600">
                     Welcome back! Enter your details to continue.
                 </p>
@@ -121,8 +145,10 @@ async function handleFacebookLogin() {
                     <label htmlFor="login-email" className={labelClass}>
                         Email address
                     </label>
+
                     <div className="relative">
                         <Mail size={18} className={iconClass} />
+
                         <input
                             id="login-email"
                             type="email"
@@ -141,6 +167,7 @@ async function handleFacebookLogin() {
                         <label htmlFor="login-password" className={labelClass}>
                             Password
                         </label>
+
                         <Link
                             to="/forgot-password"
                             className="shrink-0 text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline sm:text-sm"
@@ -151,6 +178,7 @@ async function handleFacebookLogin() {
 
                     <div className="relative">
                         <Lock size={18} className={iconClass} />
+
                         <input
                             id="login-password"
                             type={showPassword ? "text" : "password"}
@@ -161,13 +189,22 @@ async function handleFacebookLogin() {
                             placeholder="Enter your password"
                             className={`${inputClass} pl-11! pr-11!`}
                         />
+
                         <button
                             type="button"
-                            onClick={() => setShowPassword((previous) => !previous)}
-                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            onClick={() =>
+                                setShowPassword((previous) => !previous)
+                            }
+                            aria-label={
+                                showPassword ? "Hide password" : "Show password"
+                            }
                             className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-slate-500 hover:text-slate-900"
                         >
-                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            {showPassword ? (
+                                <EyeOff size={18} />
+                            ) : (
+                                <Eye size={18} />
+                            )}
                         </button>
                     </div>
                 </div>
@@ -183,7 +220,9 @@ async function handleFacebookLogin() {
 
             <div className="my-5 flex items-center gap-3">
                 <div className="h-px flex-1 bg-slate-200" />
-                <span className="text-xs text-slate-500">OR CONTINUE WITH</span>
+                <span className="text-xs text-slate-500">
+                    OR CONTINUE WITH
+                </span>
                 <div className="h-px flex-1 bg-slate-200" />
             </div>
 
@@ -196,7 +235,7 @@ async function handleFacebookLogin() {
                 <FcGoogle size={20} />
                 <span>Continue with Google</span>
             </button>
-            
+
             <button
                 type="button"
                 onClick={handleFacebookLogin}
@@ -209,7 +248,6 @@ async function handleFacebookLogin() {
                 <FaFacebookF size={19} color="#1877F2" />
                 <span>Continue with Facebook</span>
             </button>
-            
 
             <p className="mt-5 text-center text-sm leading-5 text-slate-600">
                 Don't have an account?{" "}
