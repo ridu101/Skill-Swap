@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
             ...(photoURL.trim() ? { photoURL: photoURL.trim() } : {}),
         });
 
-        setUser(auth.currentUser);
+        setUser({ ...result.user });
         return result.user;
     }
 
@@ -84,6 +84,31 @@ export function AuthProvider({ children }) {
         await sendPasswordResetEmail(auth, email);
     }
 
+    async function updateUserProfile(name, photoURL = "") {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            throw new Error("Please log in to update your profile.");
+        }
+
+        const updatedName = name.trim();
+
+        if (!updatedName) {
+            throw new Error("Name cannot be empty.");
+        }
+
+        const updatedPhotoURL = photoURL.trim();
+
+        await updateProfile(currentUser, {
+            displayName: updatedName,
+            photoURL: updatedPhotoURL || null,
+        });
+
+        await currentUser.reload();
+
+        setUser({ ...currentUser });
+    }
+
     const authInfo = {
         user,
         loading,
@@ -93,6 +118,7 @@ export function AuthProvider({ children }) {
         facebookLogin,
         logout,
         resetPassword,
+        updateUserProfile,
     };
 
     return (

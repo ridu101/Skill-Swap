@@ -1,3 +1,5 @@
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
     Mail,
@@ -5,19 +7,78 @@ import {
     CalendarDays,
     Pencil,
     UserRound,
+    X,
+    Save,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import { getAuthErrorMessage } from "../utils/authErrors";
 
 function Profile() {
-    const { user } = useAuth();
+    const { user, updateUserProfile } = useAuth();
 
     const displayName = user?.displayName || "SkillSwap Member";
     const email = user?.email || "Email not available";
     const photoURL = user?.photoURL;
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+
+    const [formData, setFormData] = useState({
+        name: "",
+        photoURL: "",
+    });
+
     function handleEdit() {
-        toast("Profile editing will be connected later.");
+        setFormData({
+            name: user?.displayName || "",
+            photoURL: user?.photoURL || "",
+        });
+
+        setIsEditing(true);
+    }
+
+    function handleChange(event) {
+        const { name, value } = event.target;
+
+        setFormData((previous) => ({
+            ...previous,
+            [name]: value,
+        }));
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        if (submitting) return;
+
+        if (!formData.name.trim()) {
+            toast.error("Please enter your name.");
+            return;
+        }
+
+        setSubmitting(true);
+
+        const toastId = toast.loading("Updating your profile...");
+
+        try {
+            await updateUserProfile(
+                formData.name,
+                formData.photoURL
+            );
+
+            toast.success("Profile updated successfully!", {
+                id: toastId,
+            });
+
+            setIsEditing(false);
+        } catch (error) {
+            toast.error(getAuthErrorMessage(error), {
+                id: toastId,
+            });
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     return (
@@ -71,14 +132,85 @@ function Profile() {
                             <span className="break-all">{email}</span>
                         </div>
 
-                        <button
-                            type="button"
-                            onClick={handleEdit}
-                            className="btn-secondary-ui mt-6 flex w-full items-center justify-center gap-2"
-                        >
-                            <Pencil size={16} />
-                            Edit profile
-                        </button>
+                        {!isEditing ? (
+                            <button
+                                type="button"
+                                onClick={handleEdit}
+                                className="btn-secondary-ui mt-6 flex w-full items-center justify-center gap-2"
+                            >
+                                <Pencil size={16} />
+                                Edit profile
+                            </button>
+                        ) : (
+                            <form
+                                onSubmit={handleSubmit}
+                                className="mt-6 space-y-4"
+                            >
+                                <div>
+                                    <label
+                                        htmlFor="profile-name"
+                                        className="mb-2 block text-sm font-medium text-main"
+                                    >
+                                        Full name
+                                    </label>
+
+                                    <input
+                                        id="profile-name"
+                                        name="name"
+                                        type="text"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                        maxLength={100}
+                                        autoComplete="name"
+                                        placeholder="Enter your name"
+                                        className="field-ui w-full"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="profile-photo"
+                                        className="mb-2 block text-sm font-medium text-main"
+                                    >
+                                        Profile photo URL
+                                    </label>
+
+                                    <input
+                                        id="profile-photo"
+                                        name="photoURL"
+                                        type="url"
+                                        value={formData.photoURL}
+                                        onChange={handleChange}
+                                        placeholder="https://example.com/photo.jpg"
+                                        className="field-ui w-full"
+                                    />
+
+                                    <p className="mt-1 text-xs text-muted">
+                                        Leave empty to remove your profile photo.
+                                    </p>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={submitting}
+                                    className="btn-primary-ui flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    <Save size={16} />
+                                    {submitting ? "Saving..." : "Save changes"}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    disabled={submitting}
+                                    onClick={() => setIsEditing(false)}
+                                    className="btn-secondary-ui flex w-full items-center justify-center gap-2"
+                                >
+                                    <X size={16} />
+                                    Cancel
+                                </button>
+                            </form>
+                        )}
 
                         <p className="mt-4 text-xs leading-5 text-muted">
                             Your name, email and profile photo are loaded from your
